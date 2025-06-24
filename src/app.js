@@ -14,14 +14,25 @@ app.use(express.json());
 // Abilita CORS
 app.use(cors());
 
-// Initialize DB
-initializeDatabase();
+// Asynchronous bootstrap function
+async function startServer() {
+    try {
+        await initializeDatabase(); // 🛠️ Wait for the DB to be initialized
 
-// Routes
-const appRoutes = require('./routes/index');
-app.use('/api/v1', appRoutes);
+        // Routes
+        const appRoutes = require('./routes/index');
+        app.use('/api/v1', appRoutes);
 
-// Swagger UI route
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+        // Swagger UI
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+        console.log('🚀 App ready to be used (DB initialized)');
+    } catch (error) {
+        console.error('❌ Failed to initialize database:', error);
+        process.exit(1);
+    }
+}
+
+startServer();
 
 module.exports = app;

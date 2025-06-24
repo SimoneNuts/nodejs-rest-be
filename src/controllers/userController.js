@@ -1,9 +1,12 @@
 const userService = require('../services/userService');
 
-const getById = (req, res) => {
+const getById = async (req, res) => {
     const { id } = req.params;
     try {
-        const user = userService.getById(id);
+        const user = await userService.getById(id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
         res.json(user);
     } catch (err) {
         const status = err.statusCode || 500;
@@ -11,21 +14,24 @@ const getById = (req, res) => {
     }
 };
 
-const getAll = (req, res) => {
+const getAll = async (req, res) => {
     try {
-        const users = userService.getAll();
+        const users = await userService.getAll();
         res.json(users);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-const update = (req, res) => {
+const update = async (req, res) => {
     const { id } = req.params;
     const { username, email } = req.body;
 
     try {
-        const result = userService.update(id, username, email);
+        const result = await userService.update(id, username, email);
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'User not found or nothing updated' });
+        }
         res.json({ message: 'User updated successfully', updatedRows: result.changes });
     } catch (err) {
         const status = err.statusCode || 500;
@@ -33,10 +39,13 @@ const update = (req, res) => {
     }
 };
 
-const deleteById = (req, res) => {
+const deleteById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = userService.deleteById(id);
+        const result = await userService.deleteById(id);
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
         res.json({ message: 'User deleted successfully', deletedRows: result.changes });
     } catch (err) {
         const status = err.statusCode || 500;

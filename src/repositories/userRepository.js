@@ -1,47 +1,35 @@
 const db = require('../config/db');
 
 const getById = (id) => {
-    return db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+    return db('users').where({ id }).first();
 };
 
 const getByEmail = (email) => {
-    return db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+    return db('users').where({ email }).first();
 };
 
 const getAll = () => {
-    return db.prepare('SELECT * FROM users').all();
+    return db('users').select('*');
 };
 
 const create = (username, email, passwordHash) => {
-    return db
-        .prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)')
-        .run(username, email, passwordHash);
+    return db('users').insert({
+        username,
+        email,
+        password: passwordHash
+    });
 };
 
 const update = (id, fields) => {
-    const sets = [];
-    const values = [];
+    if (Object.keys(fields).length === 0) return Promise.resolve();
 
-    if (fields.username) {
-        sets.push('username = ?');
-        values.push(fields.username);
-    }
-
-    if (fields.email) {
-        sets.push('email = ?');
-        values.push(fields.email);
-    }
-
-    if (sets.length === 0) return;
-
-    const sql = `UPDATE users SET ${sets.join(', ')} WHERE id = ?`;
-    values.push(id);
-
-    return db.prepare(sql).run(...values);
+    return db('users')
+        .where({ id })
+        .update(fields);
 };
 
 const deleteById = (id) => {
-    return db.prepare('DELETE FROM users WHERE id = ?').run(id);
+    return db('users').where({ id }).del();
 };
 
 module.exports = { getById, getByEmail, getAll, create, update, deleteById };

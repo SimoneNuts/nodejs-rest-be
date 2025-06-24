@@ -2,10 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userRepo = require('../repositories/userRepository');
 
-const login = (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = userRepo.getByEmail(email);
+    const user = await userRepo.getByEmail(email); // 🔧 await
     if (!user) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -31,21 +31,19 @@ const login = (req, res) => {
     });
 };
 
-const register = (req, res) => {
+const register = async (req, res) => {
     const { username, email, password } = req.body;
 
-    const existingUser = userRepo.getByEmail(email);
+    const existingUser = await userRepo.getByEmail(email); // 🔧 await
     if (existingUser) {
         return res.status(409).json({ error: 'Email already registered' });
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const result = userRepo.create(username, email, hashedPassword);
+    const result = await userRepo.create(username, email, hashedPassword); // 🔧 await
 
-    // Recupera l'utente appena creato tramite id
-    const user = userRepo.getById(result.lastInsertRowid);
+    const user = await userRepo.getById(result[0]); // knex insert returns [id]
 
-    // Genera il token JWT
     const token = jwt.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET,

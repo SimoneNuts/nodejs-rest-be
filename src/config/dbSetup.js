@@ -1,21 +1,24 @@
 const db = require('./db');
 
-function initializeDatabase() {
-    const createUsersTable = `
-        CREATE TABLE IF NOT EXISTS users (
-                                             id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                             username TEXT NOT NULL,
-                                             email TEXT UNIQUE NOT NULL,
-                                             password TEXT NOT NULL,
-                                             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    `;
+async function initializeDatabase() {
+    const exists = await db.schema.hasTable('users');
 
-    try {
-        db.prepare(createUsersTable).run();
-        console.log('✅ Table "users" created or already existing.');
-    } catch (error) {
-        console.error('❌ Error creating "users" table:', error);
+    if (!exists) {
+        try {
+            await db.schema.createTable('users', (table) => {
+                table.increments('id').primary();
+                table.string('username').notNullable();
+                table.string('email').notNullable().unique();
+                table.string('password').notNullable();
+                table.timestamp('created_at').defaultTo(db.fn.now());
+            });
+
+            console.log('✅ Table "users" created.');
+        } catch (error) {
+            console.error('❌ Error creating "users" table:', error);
+        }
+    } else {
+        console.log('ℹ️ Table "users" already exists.');
     }
 }
 
