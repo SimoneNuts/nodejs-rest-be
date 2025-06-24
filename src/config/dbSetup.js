@@ -3,16 +3,20 @@ const db = require('./db');
 function initializeDatabase() {
     const createUsersTable = `
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                                             id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                             name TEXT NOT NULL,
+                                             email TEXT UNIQUE NOT NULL,
+                                             password TEXT NOT NULL,
+                                             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `;
 
-    db.prepare(createUsersTable).run();
-    console.log('Table "users" created or already existing.');
+    try {
+        db.prepare(createUsersTable).run();
+        console.log('✅ Table "users" created or already existing.');
+    } catch (error) {
+        console.error('❌ Error creating "users" table:', error);
+    }
 }
 
 module.exports = { initializeDatabase };
