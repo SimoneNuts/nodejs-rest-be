@@ -9,7 +9,7 @@ beforeEach(() => {
 
 describe('Auth Integration', () => {
     const user = {
-        name: 'Test User',
+        username: 'Test User',
         email: 'test@example.com',
         password: 'securepassword'
     };
@@ -21,8 +21,7 @@ describe('Auth Integration', () => {
                 .send(user);
 
             expect(res.status).toBe(201);
-            expect(res.body).toHaveProperty('message', 'Registered user');
-            expect(res.body).toHaveProperty('userId');
+            expect(res.body).toHaveProperty('token');
         });
 
         it('should not allow duplicate email', async () => {
