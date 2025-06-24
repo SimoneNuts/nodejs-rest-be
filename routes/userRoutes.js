@@ -1,0 +1,118 @@
+const express = require('express');
+const { getById, getAll, create, update, deleteById } = require('../controllers/userController');
+const router = express.Router();
+
+/**
+ * @swagger
+ * /api/v1/users/{id}:
+ *   get:
+ *     summary: Return a user given his ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       200:
+ *         description: User Data
+ */
+
+router.get('/:id', getById);
+
+/**
+ * @swagger
+ * /api/v1/users/:
+ *   get:
+ *     summary: Return all users
+ *     responses:
+ *       200:
+ *         description: Lista utenti
+ */
+router.get('/', getAll);
+
+/**
+ * @swagger
+ * /api/v1/users/create:
+ *   post:
+ *     summary: New User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User Created
+ */
+router.post('/create', create);
+
+/**
+ * @swagger
+ * /api/v1/users/{id}:
+ *   put:
+ *     summary: Update a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User successfully updated
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: User not found
+ */
+router.put('/:id', update);
+
+/**
+ * @swagger
+ * /api/v1/users/{id}:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the user to delete
+ *     responses:
+ *       200:
+ *         description: User successfully deleted
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete('/:id', deleteById);
+
+module.exports = router;
