@@ -2,6 +2,10 @@ const express = require('express');
 const { getById, getAll, create, update, deleteById } = require('../controllers/userController');
 const router = express.Router();
 
+const { createUserSchema, updateUserSchema, idParamSchema} = require('../validations/userValidation');
+const validateBody = require('../middlewares/validateBody');
+const validateParams = require('../middlewares/validateParams');
+
 /**
  * @swagger
  * /api/v1/users/{id}:
@@ -19,7 +23,7 @@ const router = express.Router();
  *         description: User Data
  */
 
-router.get('/:id', getById);
+router.get('/:id', validateParams(idParamSchema), getById);
 
 /**
  * @swagger
@@ -34,7 +38,7 @@ router.get('/', getAll);
 
 /**
  * @swagger
- * /api/v1/users/create:
+ * /api/v1/users/:
  *   post:
  *     summary: New User
  *     requestBody:
@@ -55,7 +59,7 @@ router.get('/', getAll);
  *       201:
  *         description: User Created
  */
-router.post('/create', create);
+router.post('/', validateBody(createUserSchema), create);
 
 /**
  * @swagger
@@ -91,7 +95,7 @@ router.post('/create', create);
  *       404:
  *         description: User not found
  */
-router.put('/:id', update);
+router.put('/:id', validateParams(idParamSchema), validateBody(updateUserSchema), update);
 
 /**
  * @swagger
@@ -113,6 +117,6 @@ router.put('/:id', update);
  *       500:
  *         description: Internal server error
  */
-router.delete('/:id', deleteById);
+router.delete('/:id', validateParams(idParamSchema), getById);
 
 module.exports = router;

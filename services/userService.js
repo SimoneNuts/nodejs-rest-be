@@ -1,12 +1,6 @@
 const userRepo = require('../repositories/userRepository');
 
 const getById = (id) => {
-    // Check id
-    if (!id) {
-        const err = new Error('ID is required');
-        err.statusCode = 400;
-        throw err;
-    }
     // Perform getById from a repository
     const user = userRepo.getById(id);
     // Check response
@@ -23,31 +17,11 @@ const getAll = () => {
 };
 
 const create = (nome, email) => {
-    // Check name and email
-    if (!nome || !email) {
-        throw new Error('Name and email are required');
-    }
-    // Email validation
-    if (!email.includes('@')) {
-        throw new Error('Email not valid');
-    }
     // Perform create method from a repository
     return userRepo.create(nome, email);
 };
 
 const update = (id, nome, email) => {
-    if (!id || !nome || !email) {
-        const err = new Error('ID, name, and email are required');
-        err.statusCode = 400;
-        throw err;
-    }
-
-    if (!email.includes('@')) {
-        const err = new Error('Email not valid');
-        err.statusCode = 400;
-        throw err;
-    }
-
     const result = userRepo.update(id, nome, email);
     if (result.changes === 0) {
         const err = new Error('User not found');
@@ -59,10 +33,6 @@ const update = (id, nome, email) => {
 };
 
 const deleteById = (id) => {
-    // Check id
-    if (!id) {
-        throw new Error('ID is required');
-    }
     // Perform delete method from repository
     const result = userRepo.deleteById(id);
     // Check result
