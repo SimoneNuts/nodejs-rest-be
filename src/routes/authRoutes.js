@@ -8,7 +8,9 @@ const { registerSchema, loginSchema } = require('../validations/authValidation')
  * @swagger
  * /api/v1/auth/login:
  *   post:
- *     summary: Login user and return a JWT
+ *     tags:
+ *          - Authentication
+ *     summary: Log in user and return a JWT
  *     requestBody:
  *       required: true
  *       content:
@@ -30,6 +32,8 @@ router.post('/login', validateBody(loginSchema), login);
  * @swagger
  * /api/v1/auth/register:
  *   post:
+ *     tags:
+ *          - Authentication
  *     summary: Register a new user
  *     requestBody:
  *       required: true

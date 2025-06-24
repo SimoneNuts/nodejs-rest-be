@@ -13,6 +13,8 @@ const validateParams = require('../middlewares/validateParams');
  * @swagger
  * /api/v1/users/{id}:
  *   get:
+ *     tags:
+ *         - User Utilities
  *     summary: Return a user given his ID
  *     parameters:
  *       - in: path
@@ -32,6 +34,8 @@ router.get('/:id', authenticate, validateParams(idParamSchema), getById);
  * @swagger
  * /api/v1/users/:
  *   get:
+ *     tags:
+ *        - User Utilities
  *     summary: Return all users
  *     responses:
  *       200:
@@ -43,6 +47,8 @@ router.get('/', authenticate, getAll);
  * @swagger
  * /api/v1/users/{id}:
  *   put:
+ *     tags:
+ *        - User Utilities
  *     summary: Update a user by ID
  *     parameters:
  *       - in: path
@@ -79,6 +85,8 @@ router.put('/:id', authenticate, validateParams(idParamSchema), validateBody(upd
  * @swagger
  * /api/v1/users/{id}:
  *   delete:
+ *     tags:
+ *         - User Utilities
  *     summary: Delete a user by ID
  *     parameters:
  *       - in: path
