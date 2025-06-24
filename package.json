@@ -1,9 +1,10 @@
 {
   "name": "api-development",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "nodemon src/server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,9 @@
     "jsonwebtoken": "^9.0.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.0.2",
+    "supertest": "^7.1.1"
   }
 }

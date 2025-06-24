@@ -2,26 +2,22 @@ require('dotenv').config();
 
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('../config/swaggerConfig');
+const { initializeDatabase } = require('../config/dbSetup');
 
 const app = express();
-const PORT = 3000;
 
-const swaggerSpec = require('./config/swaggerConfig');
-
-// Middleware for JSON (it must always be before the routes)
+// Middleware for JSON (must be before routes)
 app.use(express.json());
 
 // Initialize DB
-const { initializeDatabase } = require('./config/dbSetup');
 initializeDatabase();
 
 // Routes
 const appRoutes = require('./routes/index');
 app.use('/api/v1', appRoutes);
 
-// Swagger UI route for API Documentation
+// Swagger UI route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
