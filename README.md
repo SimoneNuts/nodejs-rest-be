@@ -69,12 +69,5 @@ La documentazione Swagger è disponibile all'indirizzo:
 └── package.json
 ```
 
-## 🤝 Come Contribuire
-1. Fai il fork del progetto
-2. Crea un branch per la tua feature (`git checkout -b feature/AmazingFeature`)
-3. Committa i tuoi cambiamenti (`git commit -m 'Add some AmazingFeature'`)
-4. Pusha al branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
-
 ## ✍️ Autori
 - Il tuo nome - [SimoneNuts](https://github.com/SimoneNuts)
