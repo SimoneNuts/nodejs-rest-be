@@ -1,6 +1,9 @@
 const express = require('express');
-const { getById, getAll, create, update, deleteById } = require('../controllers/userController');
+const { getById, getAll, update, deleteById } = require('../controllers/userController');
 const router = express.Router();
+
+// Middleware to protect routes
+const authenticate = require('../middlewares/authenticate');
 
 const { createUserSchema, updateUserSchema, idParamSchema} = require('../validations/userValidation');
 const validateBody = require('../middlewares/validateBody');
@@ -23,7 +26,7 @@ const validateParams = require('../middlewares/validateParams');
  *         description: User Data
  */
 
-router.get('/:id', validateParams(idParamSchema), getById);
+router.get('/:id', authenticate, validateParams(idParamSchema), getById);
 
 /**
  * @swagger
@@ -32,34 +35,9 @@ router.get('/:id', validateParams(idParamSchema), getById);
  *     summary: Return all users
  *     responses:
  *       200:
- *         description: Lista utenti
+ *         description: Users list
  */
-router.get('/', getAll);
-
-/**
- * @swagger
- * /api/v1/users/:
- *   post:
- *     summary: New User
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       201:
- *         description: User Created
- */
-router.post('/', validateBody(createUserSchema), create);
+router.get('/', authenticate, getAll);
 
 /**
  * @swagger
@@ -95,7 +73,7 @@ router.post('/', validateBody(createUserSchema), create);
  *       404:
  *         description: User not found
  */
-router.put('/:id', validateParams(idParamSchema), validateBody(updateUserSchema), update);
+router.put('/:id', authenticate, validateParams(idParamSchema), validateBody(updateUserSchema), update);
 
 /**
  * @swagger
@@ -117,6 +95,6 @@ router.put('/:id', validateParams(idParamSchema), validateBody(updateUserSchema)
  *       500:
  *         description: Internal server error
  */
-router.delete('/:id', validateParams(idParamSchema), getById);
+router.delete('/:id', authenticate, validateParams(idParamSchema), getById);
 
 module.exports = router;

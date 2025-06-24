@@ -20,16 +20,6 @@ const getAll = (req, res) => {
     }
 };
 
-const create = (req, res) => {
-    const { name, email } = req.body;
-    try {
-        const result = userService.create(name, email);
-        res.status(201).json({ id: result.lastInsertRowid });
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-};
-
 const update = (req, res) => {
     const { id } = req.params;
     const { name, email } = req.body;
@@ -54,4 +44,4 @@ const deleteById = (req, res) => {
     }
 };
 
-module.exports = { getById, getAll, create, update, deleteById };
+module.exports = { getById, getAll, update, deleteById };

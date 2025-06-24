@@ -4,12 +4,18 @@ const getById = (id) => {
     return db.prepare('SELECT * FROM users WHERE id = ?').get(id);
 };
 
+const getByEmail = (email) => {
+    return db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+};
+
 const getAll = () => {
     return db.prepare('SELECT * FROM users').all();
 };
 
-const create = (name, email) => {
-    return db.prepare('INSERT INTO users (name, email) VALUES (?, ?)').run(name, email);
+const create = (name, email, passwordHash) => {
+    return db
+        .prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)')
+        .run(name, email, passwordHash);
 };
 
 const update = (id, fields) => {
@@ -17,7 +23,7 @@ const update = (id, fields) => {
     const values = [];
 
     if (fields.name) {
-        sets.push('nome = ?');
+        sets.push('name = ?');
         values.push(fields.name);
     }
 
@@ -28,7 +34,7 @@ const update = (id, fields) => {
 
     if (sets.length === 0) return;
 
-    const sql = `UPDATE utenti SET ${sets.join(', ')} WHERE id = ?`;
+    const sql = `UPDATE users SET ${sets.join(', ')} WHERE id = ?`;
     values.push(id);
 
     return db.prepare(sql).run(...values);
@@ -38,4 +44,4 @@ const deleteById = (id) => {
     return db.prepare('DELETE FROM users WHERE id = ?').run(id);
 };
 
-module.exports = { getById, getAll, create, update, deleteById };
+module.exports = { getById, getByEmail, getAll, create, update, deleteById };

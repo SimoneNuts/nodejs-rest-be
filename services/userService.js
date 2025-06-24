@@ -16,13 +16,8 @@ const getAll = () => {
     return userRepo.getAll();
 };
 
-const create = (nome, email) => {
-    // Perform create method from a repository
-    return userRepo.create(nome, email);
-};
-
-const update = (id, nome, email) => {
-    const result = userRepo.update(id, nome, email);
+const update = (id, name, email) => {
+    const result = userRepo.update(id, name, email);
     if (result.changes === 0) {
         const err = new Error('User not found');
         err.statusCode = 404;
@@ -44,4 +39,4 @@ const deleteById = (id) => {
     return result;
 };
 
-module.exports = { getById, getAll, create, update, deleteById };
+module.exports = { getById, getAll, update, deleteById };
