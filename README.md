@@ -69,5 +69,5 @@ La documentazione Swagger è disponibile all'indirizzo:
 └── package.json
 ```
 
-## ✍️ Autori
-- Il tuo nome - [SimoneNuts](https://github.com/SimoneNuts)
+## ✍️ Autore
+- Simone Le Noci - [SimoneNuts](https://github.com/SimoneNuts)
