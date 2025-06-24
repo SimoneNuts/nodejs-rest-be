@@ -13,7 +13,7 @@ const validateParams = require('../middlewares/validateParams');
  * @swagger
  * tags:
  *   - name: Users
- *     description: User management and utilities
+ *     description: User management and utilities<>
  *
  * components:
  *   schemas:
@@ -23,21 +23,21 @@ const validateParams = require('../middlewares/validateParams');
  *         id:
  *           type: string
  *           example: "123"
- *         name:
+ *         username:
  *           type: string
- *           example: "Mario Rossi"
+ *           example: "Mario"
  *         email:
  *           type: string
  *           example: "mario.rossi@example.com"
  *     UserUpdate:
  *       type: object
  *       required:
- *         - name
+ *         - username
  *         - email
  *       properties:
- *         name:
+ *         username:
  *           type: string
- *           example: "Mario Rossi"
+ *           example: "Mario"
  *         email:
  *           type: string
  *           example: "mario.rossi@example.com"

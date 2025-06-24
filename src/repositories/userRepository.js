@@ -12,19 +12,19 @@ const getAll = () => {
     return db.prepare('SELECT * FROM users').all();
 };
 
-const create = (name, email, passwordHash) => {
+const create = (username, email, passwordHash) => {
     return db
-        .prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)')
-        .run(name, email, passwordHash);
+        .prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)')
+        .run(username, email, passwordHash);
 };
 
 const update = (id, fields) => {
     const sets = [];
     const values = [];
 
-    if (fields.name) {
-        sets.push('name = ?');
-        values.push(fields.name);
+    if (fields.username) {
+        sets.push('username = ?');
+        values.push(fields.username);
     }
 
     if (fields.email) {

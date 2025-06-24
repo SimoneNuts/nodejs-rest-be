@@ -22,10 +22,10 @@ const getAll = (req, res) => {
 
 const update = (req, res) => {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { username, email } = req.body;
 
     try {
-        const result = userService.update(id, name, email);
+        const result = userService.update(id, username, email);
         res.json({ message: 'User updated successfully', updatedRows: result.changes });
     } catch (err) {
         const status = err.statusCode || 500;

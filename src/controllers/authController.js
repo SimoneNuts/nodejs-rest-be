@@ -25,14 +25,14 @@ const login = (req, res) => {
         token,
         user: {
             id: user.id,
-            name: user.name,
+            username: user.username,
             email: user.email
         }
     });
 };
 
 const register = (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     const existingUser = userRepo.getByEmail(email);
     if (existingUser) {
@@ -40,10 +40,26 @@ const register = (req, res) => {
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const result = userRepo.create(name, email, hashedPassword);
+    const result = userRepo.create(username, email, hashedPassword);
 
-    res.status(201).json({ message: 'Registered user', userId: result.lastInsertRowid });
+    // Recupera l'utente appena creato tramite id
+    const user = userRepo.getById(result.lastInsertRowid);
+
+    // Genera il token JWT
+    const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    res.status(201).json({
+        token,
+        user: {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        }
+    });
 };
-
 
 module.exports = { login, register };

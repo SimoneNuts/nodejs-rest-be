@@ -16,8 +16,8 @@ const getAll = () => {
     return userRepo.getAll();
 };
 
-const update = (id, name, email) => {
-    const result = userRepo.update(id, name, email);
+const update = (id, username, email) => {
+    const result = userRepo.update(id, username, email);
     if (result.changes === 0) {
         const err = new Error('User not found');
         err.statusCode = 404;

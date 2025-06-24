@@ -1,10 +1,10 @@
 const Joi = require('joi');
 
 const createUserSchema = Joi.object({
-    name: Joi.string().min(3).required().messages({
-        'string.empty': 'Name is required',
-        'string.min': 'The name must have at least 3 characters',
-        'string.base': 'Name must be a string'
+    username: Joi.string().min(3).required().messages({
+        'string.empty': 'Username is required',
+        'string.min': 'The username must have at least 3 characters',
+        'string.base': 'Username must be a string'
     }),
     email: Joi.string().email().required().messages({
         'string.empty': 'Email is required',
@@ -13,7 +13,7 @@ const createUserSchema = Joi.object({
 });
 
 const updateUserSchema = Joi.object({
-    name: Joi.string().optional(),
+    username: Joi.string().optional(),
     email: Joi.string().email().optional()
 }).min(1);
 

@@ -29,13 +29,13 @@ const { registerSchema, loginSchema } = require('../validations/authValidation')
  *     RegisterRequest:
  *       type: object
  *       required:
- *         - name
+ *         - username
  *         - email
  *         - password
  *       properties:
- *         name:
+ *         username:
  *           type: string
- *           example: "Mario Rossi"
+ *           example: "Mario"
  *         email:
  *           type: string
  *           format: email

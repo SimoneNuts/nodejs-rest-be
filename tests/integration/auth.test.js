@@ -43,8 +43,8 @@ describe('Auth Integration', () => {
         beforeEach(() => {
             // Prepara utente registrato manualmente
             const hashedPassword = bcrypt.hashSync(user.password, 10);
-            db.prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)')
-                .run(user.name, user.email, hashedPassword);
+            db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)')
+                .run(user.username, user.email, hashedPassword);
         });
 
         it('should login with valid credentials and return token', async () => {
@@ -57,7 +57,7 @@ describe('Auth Integration', () => {
             expect(res.body).toHaveProperty('user');
             expect(res.body.user).toMatchObject({
                 email: user.email,
-                name: user.name
+                username: user.username
             });
         });
 
